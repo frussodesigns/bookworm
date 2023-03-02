@@ -1,0 +1,92 @@
+import React from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import NewDiscussionPopup from './Components/NewDiscussionPopup'
+import { useAuthContext } from '../Hooks/useAuthContext'
+
+
+export default function DiscussionBook() {
+  const { genre, book } = useParams()
+  const [bookObj, setBook] = useState()
+  const [topicsList, setTopics] = useState()
+  const { user } = useAuthContext()
+  
+  const [trigger, setTrigger] = useState()
+
+  useEffect(() => {
+
+    // console.log(book)
+
+    //get book from id
+    const fetchBook = async () => {
+      const response = await fetch('/api/discuss/book/' + book)
+      const json = await response.json()
+      // console.log(json)
+      
+      if (response.ok) {
+        setBook(json)
+        // dispatch({type: "SET_BOOKS", payload: json})
+      }
+    }
+
+    const fetchTopics = async () => {
+      const response = await fetch('/api/discuss/topics/' + book)
+      const json = await response.json()
+      // console.log(json)
+      
+      if (response.ok) {
+        setTopics(json)
+        // dispatch({type: "SET_BOOKS", payload: json})
+      }
+    }
+
+    
+    fetchBook()
+    fetchTopics()
+
+  }, [])
+
+
+
+  return (
+    <div>
+      <NewDiscussionPopup trigger={trigger} setTrigger={setTrigger} book={bookObj}/>
+      
+      {user&&
+        <Link onClick={() => setTrigger(true)}>[New Discussion]</Link>
+      }
+      <Link to={"/discuss/" + genre}><p>[{genre}]</p></Link>
+      <h1>
+      {bookObj && bookObj.title}
+      </h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Discussion</th>
+            <th>Posts</th>
+            <th>Posts This Week</th>
+            <th>Latest Post</th>
+          </tr>
+        </thead>
+        <tbody>
+        {topicsList && topicsList.map((topic) => (
+          <tr key={topic._id}>
+            <td>
+              <Link to={"/discuss/" + genre + "/" + book + "/" + topic._id}>{topic.title}</Link>
+            </td>
+            <td>
+              <Link to={"/discuss/" + genre + "/" + book + "/" + topic._id}>{topic.posts}</Link>
+            </td>
+            <td>
+              <Link to={"/discuss/" + genre + "/" + book + "/" + topic._id}>{topic.postsThisWeek}</Link>
+            </td>
+            <td>
+              <Link to={"/discuss/" + genre + "/" + book + "/" + topic._id}>{new Date(topic.latestPost).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"})}</Link>
+            </td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
