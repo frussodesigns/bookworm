@@ -23,7 +23,7 @@ export default function BookNotes() {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const response = await fetch('/api/notes/books/'+id, {
+      const response = await fetch(process.env.REACT_APP_API + '/api/notes/books/'+id, {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
@@ -54,7 +54,7 @@ export default function BookNotes() {
       return
     }
     
-    const response = await fetch('/api/notes/' + note._id, {
+    const response = await fetch(process.env.REACT_APP_API + '/api/notes/' + note._id, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`

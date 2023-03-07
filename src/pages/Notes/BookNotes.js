@@ -27,7 +27,7 @@ export default function BookNotes() {
 
   const deleteNote = async (note) => {
     
-    const response = await fetch('/api/notes/' + note._id, {
+    const response = await fetch(process.env.REACT_APP_API + '/api/notes/' + note._id, {
       method: 'DELETE'
     })
 
@@ -62,7 +62,7 @@ export const bookNotesLoader = async ({ params }) => {
   const uri = "/api/notes/"
 
 
-  const response = await fetch(uri)
+  const response = await fetch(process.env.REACT_APP_API + uri)
   const json = await response.json()
 
   // console.log(response)

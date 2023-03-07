@@ -45,7 +45,7 @@ export default function DiscussionTopic() {
   useEffect(() => {
     //fetch topic name from id
     const fetchTopic = async () => {
-      const response = await fetch('/api/discuss/topic/' + topic)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/topic/' + topic)
       const json = await response.json()
       // console.log(json)
       
@@ -68,7 +68,7 @@ export default function DiscussionTopic() {
       // console.log(content)
       const uri = '/api/discuss/posts'
 
-      const response = await fetch(uri, {
+      const response = await fetch(process.env.REACT_APP_API + uri, {
         method: 'POST',
         body: JSON.stringify(content),
         headers: {
@@ -87,7 +87,7 @@ export default function DiscussionTopic() {
 
     //fetch book from id
     const fetchBook = async () => {
-      const response = await fetch('/api/discuss/book/' + book)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/book/' + book)
       const json = await response.json()
       // console.log(json)
       
@@ -99,7 +99,7 @@ export default function DiscussionTopic() {
 
     //fetch genre
     const fetchGenre = async () => {
-      const response = await fetch('/api/discuss/genre/' + genre)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/genre/' + genre)
       const json = await response.json()
       // console.log(json)
       
@@ -187,7 +187,7 @@ export default function DiscussionTopic() {
       const post = { id, topic, userId: user.id }
 
       const like = async () => {
-        const response = await fetch('/api/discuss/like', {
+        const response = await fetch(process.env.REACT_APP_API + '/api/discuss/like', {
           method: 'POST',
           body: JSON.stringify(post),
           headers: {
@@ -221,7 +221,7 @@ export default function DiscussionTopic() {
       const post = { id, topic, userId: user.id }
 
       const unlike = async () => {
-        const response = await fetch('/api/discuss/unlike', {
+        const response = await fetch(process.env.REACT_APP_API + '/api/discuss/unlike', {
           method: 'POST',
           body: JSON.stringify(post),
           headers: {
@@ -251,7 +251,7 @@ export default function DiscussionTopic() {
       const post = { id, topic, userId: user.id }
 
       const like = async () => {
-        const response = await fetch('/api/discuss/like', {
+        const response = await fetch(process.env.REACT_APP_API + '/api/discuss/like', {
           method: 'POST',
           body: JSON.stringify(post),
           headers: {
@@ -282,7 +282,7 @@ export default function DiscussionTopic() {
       const post = { id, topic, userId: user.id }
 
       const unlike = async () => {
-        const response = await fetch('/api/discuss/unlike', {
+        const response = await fetch(process.env.REACT_APP_API + '/api/discuss/unlike', {
           method: 'POST',
           body: JSON.stringify(post),
           headers: {

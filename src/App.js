@@ -40,7 +40,7 @@ function App() {
   useEffect(() => {
     // console.log(user)
     const fetchBooks = async () => {
-      const response = await fetch('/api/notes/books', {
+      const response = await fetch(process.env.REACT_APP_API + '/api/notes/books', {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }

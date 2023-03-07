@@ -30,7 +30,7 @@ export default function DiscussionGenre() {
   useEffect(() => {
     //fetch genre title from url
     const fetchGenreName = async () => {
-      const response = await fetch('/api/discuss/genre/' + genre)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/genre/' + genre)
       const json = await response.json()
       // console.log(json)
       
@@ -57,7 +57,7 @@ export default function DiscussionGenre() {
     if (genreId){
     //fetch top books
     const fetchBooks = async () => {
-      const response = await fetch('/api/discuss/books/' + genreId)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/books/' + genreId)
       const json = await response.json()
       // console.log(json)
       

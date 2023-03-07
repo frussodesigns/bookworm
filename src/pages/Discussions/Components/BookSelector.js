@@ -60,7 +60,7 @@ export default function BookSelector(props) {
 
             if (props.query.length < 3) return
 
-            const response = await fetch(api, {
+            const response = await fetch(process.env.REACT_APP_API + api, {
               headers: {
                 'Authorization': `Bearer ${user.token}`
               }

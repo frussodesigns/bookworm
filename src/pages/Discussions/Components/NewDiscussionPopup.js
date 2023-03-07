@@ -95,7 +95,7 @@ export default function NewDiscussionPopup(props) {
 
         // setLoading(true)
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'POST',
             body: JSON.stringify(post),
             headers: {
@@ -162,7 +162,7 @@ export default function NewDiscussionPopup(props) {
 
         // setLoading(true)
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'POST',
             body: JSON.stringify(post),
             headers: {
@@ -196,7 +196,7 @@ export default function NewDiscussionPopup(props) {
 
     useEffect(() => {
       const fetchGenres = async () => {
-        const response = await fetch('/api/discuss/genres')
+        const response = await fetch(process.env.REACT_APP_API + '/api/discuss/genres')
         const json = await response.json()
         // console.log(json)
   

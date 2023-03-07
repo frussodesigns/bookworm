@@ -49,7 +49,7 @@ export default function NewBookSelector(data) {
 
             if (query.length < 3) return
 
-            const response = await fetch(api, {
+            const response = await fetch(process.env.REACT_APP_API + api, {
               headers: {
                 'Authorization': `Bearer ${user.token}`
               }
@@ -80,7 +80,7 @@ export default function NewBookSelector(data) {
             return
           }
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'POST',
             body: JSON.stringify(newBook),
             headers: {

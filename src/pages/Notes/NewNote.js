@@ -35,7 +35,7 @@ export default function NewNote() {
 
         const note = {remark, pub, userId, bookId, chapter, page, bookTitle, chapterTitle} //line up with Node req's
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'POST',
             body: JSON.stringify(note),
             headers: {

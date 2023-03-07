@@ -39,7 +39,7 @@ export default function NewReplyComponent(props) {
 
         // setLoading(true)
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'POST',
             body: JSON.stringify(post),
             headers: {

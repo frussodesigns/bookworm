@@ -32,7 +32,7 @@ export default function DiscussionBook() {
 
     //get book from id
     const fetchBook = async () => {
-      const response = await fetch('/api/discuss/book/' + book)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/book/' + book)
       const json = await response.json()
       // console.log(json)
       
@@ -43,7 +43,7 @@ export default function DiscussionBook() {
     }
 
     const fetchTopics = async () => {
-      const response = await fetch('/api/discuss/topics/' + book)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/topics/' + book)
       const json = await response.json()
       // console.log(json)
       
@@ -59,7 +59,7 @@ export default function DiscussionBook() {
 
     //fetch genre
     const fetchGenre = async () => {
-      const response = await fetch('/api/discuss/genre/' + genre)
+      const response = await fetch(process.env.REACT_APP_API + '/api/discuss/genre/' + genre)
       const json = await response.json()
       // console.log(json)
       

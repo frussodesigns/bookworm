@@ -85,7 +85,7 @@ export default function EditNote () {
 
         setLoading(true)
 
-        const response = await fetch(uri, {
+        const response = await fetch(process.env.REACT_APP_API + uri, {
             method: 'PATCH',
             body: JSON.stringify(note),
             headers: {

@@ -30,11 +30,9 @@ export default function Discussions() {
 
   useEffect(() => {
     const fetchGenres = async () => {
-      const response = await fetch('/api/discuss/genres')
+      const response = await fetch(process.env.REACT_APP_API + 'api/discuss/genres')
       const json = await response.json()
       // console.log(json)
-
-      
       
       if (response.ok) {
         console.log(json)
@@ -54,6 +52,7 @@ export default function Discussions() {
       }
     }
     
+    console.log(process.env.REACT_APP_API )
     fetchGenres()
 
     const handleEsc = (event) => {
