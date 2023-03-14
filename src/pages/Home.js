@@ -3,12 +3,12 @@ export default function Home() {
         <>
             <div className="pageContainer">
                 <h2>Track Your Reading</h2>
-                <p>You finally have an all-in-one place to track the books you read over the years.</p>
+                <p>Introducing your all-in-one platform for tracking the books you read over the years.</p>
             </div>
             <br />
             <div className="pageContainer">
                 <h2>Keep a Bank of Reading Notes</h2>
-                <p>Refresh yourself on the main points and takeaways of a book you read months or years ago. Hardcover is your convenient backlog of relevant thoughts that arise while reading.</p>
+                <p>Refresh yourself on the main points and takeaways from the books you read months or years ago. Hardcover is your convenient backlog of relevant thoughts that arise while reading.</p>
             </div>
             <br />
             <div className="pageContainer">
@@ -18,7 +18,7 @@ export default function Home() {
             <br />
             <div className="pageContainer">
                 <h2>Discuss Your Favorite Books</h2>
-                <p>Hardcover is the perfect social platform for spirited discussions revolving around your favorite books.</p>
+                <p>Hardcover is the perfect place for spirited discussions revolving around your favorite books.</p>
             </div>
             {/* <br />
             <div className="pageContainer">
