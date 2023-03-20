@@ -23,7 +23,8 @@ export default function NoteDeleteConfirm(props) {
             <CloseIcon className='closeButton' onClick={() => props.setDeleteToggle(false)} />
 
             <h3>Please Confirm</h3>
-            <div>Are you sure you would like to delete {props.deleteToggle.title} and all of its {props.deleteToggle.notes} notes?</div>
+            <div>Are you sure you would like to delete this note? This cannot be undone.</div>
+            {/* <div>Are you sure you would like to delete {props.deleteToggle.title} and all of its {props.deleteToggle.notes} notes?</div> */}
             <div className="twoButton">
                 <Button onClick={() => handleConfirm(props.deleteToggle)} size="small" variant="contained">
                     Confirm

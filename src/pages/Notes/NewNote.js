@@ -74,6 +74,7 @@ export default function NewNote() {
         <label>Chapter:</label>
             <input 
             className='ndField'
+            maximum-scale={1}
             type="number"
             onChange={(e) => setChapter(e.target.value)}
             value={chapter} />
