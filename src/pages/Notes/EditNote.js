@@ -81,7 +81,7 @@ export default function EditNote () {
         const userId = user.email
         console.log(userId)
 
-        const note = {remark, pub, userId, bookId, chapter, page, bookTitle} //line up with Node req's
+        const note = {remark, pub, userId, bookId, chapter, chapterTitle, page, bookTitle} //line up with Node req's
 
         setLoading(true)
 
