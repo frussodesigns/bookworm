@@ -182,7 +182,8 @@ export default function RootLayout() {
                     </div>
                 </NavLink>
                 <NavLink 
-                    onClick={() => dispatch({type: "SET_PAGE", payload: "Account"})}>
+                    onClick={() => dispatch({type: "SET_PAGE", payload: "Account"})}
+                    to="mobileAccount">
                     <div className={buttonCss.account}>
                         <AccountCircleIcon className="navIcon" />
                         <p className="navLink">Account</p>

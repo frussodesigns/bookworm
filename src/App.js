@@ -23,6 +23,7 @@ import Discussions from './pages/Discussions/Discussions'
 import DiscussionGenre from './pages/Discussions/DiscussionGenre'
 import DiscussionBook from './pages/Discussions/DiscussionBook'
 import DiscussionTopic from './pages/Discussions/DiscussionTopic'
+import MobileAccount from './pages/Account/mobileAccount';
 
 //layouts
 import RootLayout from './layouts/RootLayout'
@@ -91,6 +92,7 @@ function App() {
       
         <Route path="signin" element={!user ? <SignIn /> : <Navigate to="/" />} />
         <Route path="signup" element={!user ? <SignUp /> : <Navigate to="/" />} />
+        <Route path="mobileAccount" element={<MobileAccount />} />
   
         <Route path="notes" element={user ? <MyNotes /> : <Navigate to="/signin" />} />
 
