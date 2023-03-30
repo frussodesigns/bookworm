@@ -18,6 +18,10 @@ export default function BookNotes() {
   const { notes, dispatch } = useNotesContext()
   const [deleteToggle, setDeleteToggle] = useState(false)
   const [bookObj, setBook] = useState()
+  const [chapObj, setChaps] = useState([])
+  const [collapseObj, setCollapse] = useState([])
+  const [collapseAllLast, setCollapseAll] = useState(true)
+
 
   // const [notes, setNotes] = useState(null)
 
@@ -34,7 +38,7 @@ export default function BookNotes() {
       if (response.ok) {  
         dispatch({type: "SET_NOTES", payload: json.notes})
         setBook(json.book)
-        console.log(notes)
+        console.log(json)
       }
     }
     
@@ -44,6 +48,22 @@ export default function BookNotes() {
     }
 
   }, [dispatch, user])
+
+  useEffect(() => {
+    let prevChap = -1
+    if (notes.length > 0) {
+      for (let i = 0; i < notes.length; i++){
+        if (notes[i].chapter != prevChap){
+          setChaps(old => (i === 0 ? [notes[i].chapter] : [...old, notes[i].chapter]))
+          setCollapse(old => (i === 0 ? [false] : [...old, false]))
+          prevChap = notes[i].chapter
+        }
+      }
+    }
+    console.log(chapObj)
+    console.log(collapseObj)
+  }, [notes])
+  
   
   
   // const { bookNotes } = useLoaderData() //await?
@@ -72,6 +92,25 @@ export default function BookNotes() {
     dispatch({type: 'SET_NOTES', payload: null})
 
   }
+
+  const collapse = (index) => {
+    const updatedArray = collapseObj.map((value, i) => i === index ? !collapseObj[index] : value)
+    setCollapse(updatedArray)
+  }
+  const collapseAll = (index) => {
+    const updatedArray = []
+    if (collapseAllLast == true) {
+      collapseObj.forEach(() => updatedArray.push(true))
+      setCollapseAll(false)
+    }
+    else{
+      collapseObj.forEach(() => updatedArray.push(false))
+      setCollapseAll(true)
+    }
+    // collapseObj.forEach(() => updatedArray.push(true))
+    
+    setCollapse(updatedArray)
+  }
   
 
   return (
@@ -88,8 +127,12 @@ export default function BookNotes() {
       <div className="header">
       <h3>{bookObj && bookObj.title}</h3>
       <div className='newBookButton'>
+        <Link onClick={()=>collapseAll()}>
+          <Button variant="contained">Collapse</Button>
+        </Link>
+        <div className="gap"></div>
         <Link to={'/notes/' + id + '/new'}>
-        <Button variant="contained">New Note</Button>
+          <Button variant="contained">New Note</Button>
         </Link>
       </div>
       </div>
@@ -99,7 +142,42 @@ export default function BookNotes() {
         {!notes || notes.length == 0 && 
           <div className="aBook"><p>It looks like you haven't yet created any notes for this book. Click "New Note" to create your first note.</p></div>
         }
-        {notes && notes.map((note) => (
+        {
+          chapObj && chapObj.map((chap, index) => (
+            <>
+            <Link onClick={() => collapse(index)}>
+              <h4>{"Chapter " + chap}</h4>
+            </Link>
+            <div>
+            {notes && notes.map((note) => (
+              <>
+              {note.chapter == chap && collapseObj[index]==false ? 
+                <Link to={'/notes/' + id + '/' + note._id + '/edit'} key={note._id}>
+                <div className='aBook'>
+                  <div className="bookInfo">
+                  <Link to={'/notes/' + id + '/' + note._id + '/edit'} >
+                    <p>{ note.remark }</p>
+                  </Link>
+                  </div>
+                  <div className="del">
+                  <IconButton aria-label="delete" onClick={(e) => {
+                      e.preventDefault()
+                      setDeleteToggle(note)
+                  }}>
+                    <DeleteIcon/>
+                  </IconButton>
+                  </div>
+                </div>
+              </Link> : null
+              }
+              </>
+            ))}
+            </div>
+            </>
+          ))
+        }
+        {/* {
+        notes && notes.map((note) => (
           <Link to={'/notes/' + id + '/' + note._id + '/edit'} key={note._id}>
             <div className='aBook'>
               <div className="bookInfo">
@@ -107,7 +185,6 @@ export default function BookNotes() {
                 <p>{ note.remark }</p>
               </Link>
               </div>
-              {/* <span onClick={() => {deleteNote(note)}}>delete</span> */}
               <div className="del">
               <IconButton aria-label="delete" onClick={(e) => {
                   e.preventDefault()
@@ -116,10 +193,10 @@ export default function BookNotes() {
                 <DeleteIcon/>
               </IconButton>
               </div>
-              {/* <Link to={'/notes/' + id + '/' + note._id + '/edit'}>edit</Link> */}
             </div>
           </Link>
-        ))}
+        ))
+        } */}
       
     </main>
   )
