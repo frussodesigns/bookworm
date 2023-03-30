@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useNotesContext } from '../Hooks/useNotesContext'
 import { useAuthContext } from '../Hooks/useAuthContext'
 import Button from '@mui/material/Button';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function EditNote () {
 
@@ -100,6 +101,7 @@ export default function EditNote () {
             setError(json.error)
         }
         if (response.ok) {
+          ConfirmationToast()
 
           // setError('')
           setError(null)
@@ -117,9 +119,36 @@ export default function EditNote () {
     // console.log("pubchange: " + pub)
     }, [pub])
 
+    const ConfirmationToast = () => {
+      toast.success('Successfully Saved!', {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+    };
+
 
   return (
     <main className='notes-page'>
+      <div>
+        <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            />
+      </div>
       <div className='note-module'>
       <form className="add" onSubmit={handleSubmit}>
         <h3>Edit Note:</h3>

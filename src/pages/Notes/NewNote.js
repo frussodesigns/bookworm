@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useNotesContext } from '../Hooks/useNotesContext'
 import { useAuthContext } from '../Hooks/useAuthContext'
 import Button from '@mui/material/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NewNote() {
 
@@ -59,14 +61,42 @@ export default function NewNote() {
             setRemark('')
             setError(null)
             console.log("new note added")
+            ConfirmationToast()
 
             dispatch({type: 'CREATE_NOTE', payload: json})
         }
     }
 
+    const ConfirmationToast = () => {
+      toast.success('Successfully Saved!', {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+    };
 
   return (
     <main className='notes-page'>
+      <div>
+        {/* <ConfirmationToast /> */}
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          />
+      </div>
       <div className='note-module'>
       <form className="add" onSubmit={handleSubmit}>
         <h3>New Note:</h3>
@@ -129,6 +159,8 @@ export default function NewNote() {
       
       {/* { id } */}
     </div>
+
+    
     </main>
   )
 }
