@@ -35,8 +35,7 @@ function App() {
   //checks youre signed in
   const { user } = useAuthContext()
   const { logout } = useLogout()
-  const {books, dispatch} = useBookNotesContext()
-
+  const {books, dispatch} = useBookNotesContext()  
 
   useEffect(() => {
     // console.log(user)

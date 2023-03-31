@@ -8,11 +8,12 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState, useEffect } from "react";
+import ExpiredJWTNotice from "../pages/Account/ExpiredJWTNotice";
 
 export default function RootLayout() {
 
     const { logout } = useLogout()
-    const { user } = useAuthContext()
+    const { user, exp } = useAuthContext()
     const { page, dispatch } = useActivePageContext()
     const [buttonCss, setButtonCss] = useState({
         home: "navButton",
@@ -22,12 +23,34 @@ export default function RootLayout() {
         account: "navButton"
     })
     const [indicatorCss, setIndicatorCss] = useState("indicator")
+    const [expired, setExpired] = useState(false)
 
     const handleSignout = () => {
         logout()
     }
 
+    const checkExpiry = () => {
+        const now = new Date()
+        // console.log(exp)
+
+        if (!exp) return
+        if (!user) return
+
+        if (now > exp){
+            console.log('token expired')
+            setExpired(true)
+        }
+        else{
+            console.log('token still good')
+            setExpired(false)
+        }
+    }
+
     useEffect(() => {
+
+        checkExpiry()
+        
+
         switch (page) {
             case 'Books':
                 console.log("switching books")
@@ -97,7 +120,7 @@ export default function RootLayout() {
     }, [page])
     
    
-    return(
+    return(<>
         <div className="root-layout">
             <header>
                 <nav>
@@ -203,5 +226,7 @@ export default function RootLayout() {
                 </defs>
             </svg> */}
         </div>
+        {expired && <ExpiredJWTNotice setExpired={setExpired} />}
+        </>
     )
 }
