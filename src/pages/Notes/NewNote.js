@@ -24,6 +24,8 @@ export default function NewNote() {
     const [page, setPage] = useState('')
     const [error, setError] = useState(null)
 
+    const handleFocus = (event) => event.target.select()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -106,6 +108,7 @@ export default function NewNote() {
             className='ndField'
             type="number"
             onChange={(e) => setChapter(e.target.value)}
+            onFocus={handleFocus}
             value={chapter} />
         <label>Chapter Name:</label>
             <input 
@@ -118,6 +121,7 @@ export default function NewNote() {
             className='ndField'
             type="number"
             onChange={(e) => setPage(e.target.value)}
+            onFocus={handleFocus}
             value={page} />
         <label>Remark:</label>
             <textarea 
