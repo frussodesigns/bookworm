@@ -41,9 +41,9 @@
 
   .navBackground{
     width: 100%;
-    height: 11rem;
-    /* background: linear-gradient(#06ff2b00 0%, #ffffff 40%); */
-    background: red;
+    height: 12rem;
+    background: linear-gradient(#06ff2b00 0%, #ffffff 40%);
+    /* background: red; */
     position: fixed;
     bottom: 0;
     z-index: -.5;
