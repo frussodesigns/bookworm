@@ -146,10 +146,11 @@ export default function RootLayout() {
     // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
     const isKeyboardVisible = useDetectKeyboardOpen();
-    
+    const [keyVis, setKeyVis] = useState(false)
+
     useEffect(() => {
         console.log(isKeyboardVisible)
-  
+        setKeyVis(isKeyboardVisible)
       }, [isKeyboardVisible])
       
    
@@ -206,7 +207,7 @@ export default function RootLayout() {
                 <div className="mobileSpacer" />
             </main>
 
-            {isKeyboardVisible == false || isKeyboardVisible == undefined &&
+            {keyVis == false || keyVis == undefined &&
             <div className="mobileNav">
             <div className="mobileNavFlex">
                 <NavLink 
