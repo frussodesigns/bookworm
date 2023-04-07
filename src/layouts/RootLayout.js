@@ -208,7 +208,7 @@ export default function RootLayout() {
                 <div className="mobileSpacer" />
             </main>
 
-            {keyVis == false &&
+            {keyVis == false || undefined &&
             <div className="mobileNav">
             <div className="mobileNavFlex">
                 <NavLink 
