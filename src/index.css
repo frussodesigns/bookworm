@@ -521,3 +521,73 @@ select {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Loading Animation */
+.loadingBound{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  /* background: #1aac83; */
+}
+
+.loadingContainer{
+  /* background-color: #1aac83; */
+  margin: .2rem;
+  background: #f1f1f1;
+  padding: 2rem;
+  padding-top: 1rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.15);
+  width: 30%;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-dots {
+  display: inline-block;
+  /* font-size: 32px; */
+}
+
+.loading-dots span {
+  display: inline-block;
+  animation: pulse 1s infinite;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.loading-dots span:nth-child(4) {
+  animation-delay: 0.75s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  75% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

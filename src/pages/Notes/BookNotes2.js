@@ -16,6 +16,7 @@ export default function BookNotes() {
   const { id } = useParams()
   const { user } = useAuthContext()
   const { notes, dispatch } = useNotesContext()
+  const [Ready, setReady] = useState(false)
   const [deleteToggle, setDeleteToggle] = useState(false)
   const [bookObj, setBook] = useState()
   const [chapObj, setChaps] = useState([])
@@ -39,6 +40,7 @@ export default function BookNotes() {
         dispatch({type: "SET_NOTES", payload: json.notes})
         setBook(json.book)
         console.log(json)
+        setReady(true)
       }
     }
     
@@ -51,7 +53,7 @@ export default function BookNotes() {
 
   useEffect(() => {
     let prevChap = -1
-    if (notes.length > 0) {
+    if (notes && notes.length > 0) {
       for (let i = 0; i < notes.length; i++){
         if (notes[i].chapter != prevChap){
           setChaps(old => (i === 0 ? [notes[i].chapter] : [...old, notes[i].chapter]))
@@ -63,7 +65,6 @@ export default function BookNotes() {
     console.log(chapObj)
     console.log(collapseObj)
   }, [notes])
-  
   
   
   // const { bookNotes } = useLoaderData() //await?
@@ -112,7 +113,21 @@ export default function BookNotes() {
     setCollapse(updatedArray)
   }
   
-
+  if (!Ready){ 
+    return(
+      <main className='loadingBound'>
+        <div className='loadingContainer'>
+          <p className="loading-dots">
+            loading
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </p>
+        </div>
+      </main>
+    )
+  }
+  
   return (
     <main className='pageContainer'>
       <Breadcrumbs aria-label="breadcrumb">

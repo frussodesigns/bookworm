@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom"
+import { NavLink, Outlet, useLocation } from "react-router-dom"
 import { useLogout } from "../pages/Hooks/useLogout"
 import { useAuthContext } from "../pages/Hooks/useAuthContext"
 import { useActivePageContext } from "../pages/Hooks/useActivePageContext"
@@ -9,9 +9,12 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useState, useEffect } from "react";
 import ExpiredJWTNotice from "../pages/Account/ExpiredJWTNotice";
+import useDetectKeyboardOpen from "use-detect-keyboard-open";
+
 
 export default function RootLayout() {
-
+    
+    const location = useLocation();
     const { logout } = useLogout()
     const { user, exp } = useAuthContext()
     const { page, dispatch } = useActivePageContext()
@@ -63,7 +66,7 @@ export default function RootLayout() {
                 })
                 setIndicatorCss("indicatorBooks")
                 break
-            case 'Notes':
+            case 'notes':
                 console.log("switching notes")
                 setButtonCss({
                     home: "navButton",
@@ -74,7 +77,7 @@ export default function RootLayout() {
                 })
                 setIndicatorCss("indicatorNotes")
                 break
-            case 'Discuss':
+            case 'about':
                 console.log("switching discuss")
                 setButtonCss({
                     home: "navButton",
@@ -85,7 +88,7 @@ export default function RootLayout() {
                 })
                 setIndicatorCss("indicatorDiscuss")
                 break
-            case 'Account':
+            case 'mobileAccount':
                 setButtonCss({
                     home: "navButton",
                     books: "navButton",
@@ -95,7 +98,7 @@ export default function RootLayout() {
                 })
                 setIndicatorCss("indicatorAccount")
                 break
-            case 'Home':
+            case '':
                 setButtonCss({
                     home: "navButton-active",
                     books: "navButton",
@@ -118,14 +121,44 @@ export default function RootLayout() {
 
         console.log(buttonCss)
     }, [page])
+
+    //useLocation
+    useEffect(() => {
+        const page = location.pathname.slice(1)
+        let str = location.pathname
+        let firstSlashIndex = str.indexOf("/"); // get the index of the first '/'
+        let secondSlashIndex = str.indexOf("/", firstSlashIndex + 1); // get the index of the second '/', starting from the index of the first '/'
+        if (secondSlashIndex === -1) { // if there is no second slash
+            secondSlashIndex = str.length; // set the second slash index to the end of the string
+        }
+        let result = str.substring(firstSlashIndex + 1, secondSlashIndex); // get the substring between the first and second '/'
+        console.log(result); // output: "notes"
+
+        dispatch({type: "SET_PAGE", payload: result})
+      console.log(location)
+      console.log(page)
+    }, [location])
     
+
+
+
+    //mobile keyboard detection:
+    // const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    const isKeyboardVisible = useDetectKeyboardOpen();
+    
+    useEffect(() => {
+        console.log(isKeyboardVisible)
+  
+      }, [isKeyboardVisible])
+      
    
     return(<>
         <div className="root-layout">
             <header>
                 <nav>
                     <NavLink 
-                        onClick={() => dispatch({type: "SET_PAGE", payload: null})}
+                        // onClick={() => dispatch({type: "SET_PAGE", payload: null})}
                         className="logo" 
                         to="/"
                     >
@@ -133,21 +166,21 @@ export default function RootLayout() {
                     </NavLink>
                     {/* <p>{page}</p> */}
                     <NavLink 
-                        onClick={() => dispatch({type: "SET_PAGE", payload: "Books"})}
+                        // onClick={() => dispatch({type: "SET_PAGE", payload: "Books"})}
                         className="navlinks" 
                         to="about"
                     >
                         Books
                     </NavLink>
                     <NavLink 
-                        onClick={() => dispatch({type: "SET_PAGE", payload: "Notes"})}
+                        // onClick={() => dispatch({type: "SET_PAGE", payload: "Notes"})}
                         className="navlinks" 
                         to="notes"
                     >
                         Notes
                     </NavLink>
                     <NavLink 
-                        onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
+                        // onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
                         className="navlinks" 
                         to="about"
                     >
@@ -173,6 +206,7 @@ export default function RootLayout() {
                 <div className="mobileSpacer" />
             </main>
 
+            {isKeyboardVisible == false || isKeyboardVisible == undefined &&
             <div className="mobileNav">
             <div className="mobileNavFlex">
                 <NavLink 
@@ -181,7 +215,7 @@ export default function RootLayout() {
                     //     background: isActive ? '#7600dc' : '#f0f0f0',
                     //   })
                     // }
-                    onClick={() => dispatch({type: "SET_PAGE", payload: "Home"})}
+                    // onClick={() => dispatch({type: "SET_PAGE", payload: "Home"})}
                     to="/">
                     <div className={buttonCss.home}>
                         <HomeIcon className="navIcon" />
@@ -189,7 +223,7 @@ export default function RootLayout() {
                     </div>
                 </NavLink>
                 <NavLink 
-                    onClick={() => dispatch({type: "SET_PAGE", payload: "Notes"})}
+                    // onClick={() => dispatch({type: "SET_PAGE", payload: "Notes"})}
                     to="notes">
                     <div className={buttonCss.notes}>
                         <NoteAltIcon className="navIcon" />
@@ -197,7 +231,7 @@ export default function RootLayout() {
                     </div>
                 </NavLink>
                 <NavLink 
-                    onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
+                    // onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
                     to="about">
                     <div className={buttonCss.discuss}>
                         <ChatBubbleIcon className="navIcon" />
@@ -205,7 +239,7 @@ export default function RootLayout() {
                     </div>
                 </NavLink>
                 <NavLink 
-                    onClick={() => dispatch({type: "SET_PAGE", payload: "Account"})}
+                    // onClick={() => dispatch({type: "SET_PAGE", payload: "Account"})}
                     to="mobileAccount">
                     <div className={buttonCss.account}>
                         <AccountCircleIcon className="navIcon" />
@@ -216,6 +250,8 @@ export default function RootLayout() {
                 <div className={indicatorCss}></div>
             </div>
             </div>
+            }
+
                 <div className="navBackground"></div>
                 
             {/* <svg class="svg">

@@ -637,6 +637,7 @@ select {
 
 .header{
   display: flex;
+  flex-direction: column;
 }
 
 .headerTitle{
@@ -648,7 +649,7 @@ select {
 .newBookButton{
   margin-top: 1rem;
   margin-left: auto;
-  margin-right: .5rem;
+  margin-right: auto;
   height: 35px;
 }
 

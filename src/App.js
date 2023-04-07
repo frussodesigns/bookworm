@@ -93,7 +93,7 @@ function App() {
         <Route path="signup" element={!user ? <SignUp /> : <Navigate to="/" />} />
         <Route path="mobileAccount" element={<MobileAccount />} />
   
-        <Route path="notes" element={user ? <MyNotes /> : <Navigate to="/signin" />} />
+        <Route path="notes" element={user ? <MyNotes /> : <SignIn />} />
 
         <Route path="notes/:id" element={<BookNotes2 />}/>
         {/* <Route path="notes/:id" element={user ? <BookNotes2 /> : <Navigate to="/signin" />}/> */}
