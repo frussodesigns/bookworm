@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useNotesContext } from '../Hooks/useNotesContext'
 import { useAuthContext } from '../Hooks/useAuthContext'
 import Button from '@mui/material/Button';
@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function EditNote () {
 
+    const navigate = useNavigate();
     let { notes, dispatch } = useNotesContext()
     const { user } = useAuthContext()
     const { id, noteId } = useParams()
@@ -110,6 +111,8 @@ export default function EditNote () {
           dispatch({type: 'UPDATE_NOTE', payload: json})
 
           setLoading(false);
+          navigate(-1)
+
           }
           
     }

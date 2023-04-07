@@ -54,9 +54,9 @@ export default function NewNote() {
         if (response.ok) {
 
             setError('')
-            setPage('')
-            setChapterTitle('')
-            setChapter('')
+            // setPage('')
+            // setChapterTitle('')
+            // setChapter('')
             setPub(false)
             setRemark('')
             setError(null)
