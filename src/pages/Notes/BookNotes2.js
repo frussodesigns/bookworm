@@ -113,7 +113,7 @@ export default function BookNotes() {
     setCollapse(updatedArray)
   }
   
-  if (!Ready){ 
+  if (!Ready){
     return(
       <main className='loadingBound'>
         <div className='loadingContainer'>

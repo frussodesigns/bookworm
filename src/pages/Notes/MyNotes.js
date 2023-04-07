@@ -16,6 +16,7 @@ export default function MyNotes() {
   // const {notes, dispatch} = useNotesContext()
   // const [books, setBooks] = useState()
   const [newBook, setNewBook] = useState(false)
+  const [Ready, setReady] = useState(false)
   const [deleteToggle, setDeleteToggle] = useState(false)
   const { user } = useAuthContext()
 
@@ -37,6 +38,7 @@ export default function MyNotes() {
       
       if (response.ok) {
         dispatch({type: "SET_BOOKS", payload: json})
+        setReady(true)
       }
     }
     
@@ -69,6 +71,20 @@ export default function MyNotes() {
     }
   }
   
+  if (!Ready){ 
+    return(
+      <main className='loadingBound'>
+        <div className='loadingContainer'>
+          <p className="loading-dots">
+            loading
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className='pageContainer'>
