@@ -5,6 +5,7 @@ import { useAuthContext } from '../Hooks/useAuthContext'
 import Button from '@mui/material/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PlusIcon from '../../assets/icons/PlusIcon';
 
 export default function NewNote() {
 
@@ -19,6 +20,7 @@ export default function NewNote() {
 
     const [remark, setRemark] = useState('')
     const [pub, setPub] = useState(false)
+    const [NotFirstNote, setNotFirstNote] = useState(false)
     const [chapter, setChapter] = useState('')
     const [chapterTitle, setChapterTitle] = useState('')
     const [page, setPage] = useState('')
@@ -26,8 +28,21 @@ export default function NewNote() {
 
     const handleFocus = (event) => event.target.select()
 
+    const incPg = () => {
+      console.log(page)
+      setPage(old => +old+1)
+    }
+    
+    const incChap = () => {
+      console.log(chapter)
+      setChapterTitle('')
+      setChapter(old => +old+1)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        setNotFirstNote(true)
 
         if (!user){
           setError('You must be logged in')
@@ -104,12 +119,15 @@ export default function NewNote() {
         <h3>New Note:</h3>
 
         <label>Chapter:</label>
+          <div className="pgNumDiv">
             <input 
             className='ndField'
             type="number"
             onChange={(e) => setChapter(e.target.value)}
             onFocus={handleFocus}
             value={chapter} />
+            {NotFirstNote && <div onClick={()=>incChap()} className="inc"><PlusIcon /></div>}
+          </div>
         <label>Chapter Name:</label>
             <input 
             className='ndField'
@@ -117,12 +135,14 @@ export default function NewNote() {
             onChange={(e) => setChapterTitle(e.target.value)}
             value={chapterTitle} />
         <label>Page Number:</label>
+        <div className="pgNumDiv">
             <input 
             className='ndField'
             type="number"
             onChange={(e) => setPage(e.target.value)}
-            onFocus={handleFocus}
             value={page} />
+            {NotFirstNote && <div onClick={()=>incPg()} className="inc"><PlusIcon /></div>}
+          </div>
         <label>Remark:</label>
             <textarea 
             className='remark'

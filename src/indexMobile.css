@@ -503,13 +503,27 @@ td {
 }
 
 .ndField{
-  width: 100%;
+  /* width: 100%; */
   padding: 12px 15px;
   margin: 8px 0;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
   font-size: 16;
+}
+
+.pgNumDiv{
+  display: flex;
+
+}
+
+.inc{
+  /* background: red; */
+  width: 40px;
+  height: 40px;
+  margin: 8px 0;
+  margin-left: 10px;
+  /* padding: 5px; */
 }
 
 .test{

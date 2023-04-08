@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useNotesContext } from '../Hooks/useNotesContext'
 import { useAuthContext } from '../Hooks/useAuthContext'
 import Button from '@mui/material/Button';
+import PlusIcon from '../../assets/icons/PlusIcon';
+
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function EditNote () {
@@ -25,6 +27,11 @@ export default function EditNote () {
     const [page, setPage] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+
+    const incPg = () => {
+      console.log(page)
+      setPage(old => +old+1)
+    }
 
     //onMount useEffect:
     useEffect(() => {
@@ -169,11 +176,14 @@ export default function EditNote () {
             onChange={(e) => setChapterTitle(e.target.value)}
             value={chapterTitle} />
         <label>Page Number:</label>
+          <div className="pgNumDiv">
             <input 
             className='ndField'
             type="number"
             onChange={(e) => setPage(e.target.value)}
             value={page} />
+            {/* <div onClick={()=>incPg()} className="inc"><PlusIcon /></div> */}
+          </div>
         <label>Remark:</label>
             <textarea 
             className='remark'

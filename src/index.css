@@ -237,6 +237,20 @@ td {
   margin: 8px 0;
   box-sizing: border-box;
 }
+
+.pgNumDiv{
+  display: flex;
+
+}
+
+.inc{
+  /* background: red; */
+  width: 30px;
+  height: 30px;
+  margin: 15px 0;
+  margin-left: 10px;
+}
+
 .searchField{
   box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.1);
   width: 100%;
