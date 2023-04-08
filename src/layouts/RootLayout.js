@@ -252,9 +252,11 @@ export default function RootLayout() {
                 <div className={indicatorCss}></div>
             </div>
             </div>
-            }
+}
 
+            {!keyVis &&
                 <div className="navBackground"></div>
+            }
                 
             {/* <svg class="svg">
                 <defs>
