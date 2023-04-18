@@ -24,6 +24,13 @@ import DiscussionGenre from './pages/Discussions/DiscussionGenre'
 import DiscussionBook from './pages/Discussions/DiscussionBook'
 import DiscussionTopic from './pages/Discussions/DiscussionTopic'
 import MobileAccount from './pages/Account/mobileAccount';
+import MyClubs from './pages/BookClubs/MyClubs';
+import ModifyClub from './pages/BookClubs/ModifyClub';
+import ClubBooks from './pages/BookClubs/ClubBooks';
+import ClubBookDiscussions from './pages/BookClubs/ClubBookDiscussions';
+import NewClubBook from './pages/BookClubs/NewClubBook';
+import NewClubDiscussion from './pages/BookClubs/NewClubDiscussion';
+import Discussion from './pages/BookClubs/Discussion';
 
 //layouts
 import RootLayout from './layouts/RootLayout'
@@ -105,6 +112,15 @@ function App() {
         <Route path="discuss/:genre/:book" element={<DiscussionBook />} /*loader={discussLoader}*/ />
         <Route path="discuss/:genre/:book/:topic" element={<DiscussionTopic />} /*loader={discussLoader}*/ />
        
+        <Route path="bookclubs" element={<MyClubs />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club" element={<ClubBooks />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book" element={<ClubBookDiscussions />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/modify" element={<ModifyClub />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/new" element={<ModifyClub />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/newBook" element={<NewClubBook />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book/newDiscussion" element={<NewClubDiscussion />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book/:discussion" element={<Discussion />} /*loader={discussLoader}*/ />
+        
 
         <Route path="*" element={<NotFound />} />
         {/* </div> */}

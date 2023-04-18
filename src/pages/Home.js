@@ -2,6 +2,11 @@ export default function Home() {
     return(
         <>
             <div className="pageContainer">
+                <h2>Discuss Your Favorite Books</h2>
+                <p>Hardcover is the perfect place for spirited discussions revolving around your favorite books.</p>
+            </div>
+            <br />
+            <div className="pageContainer">
                 <h2>Track Your Reading</h2>
                 <p>Introducing your all-in-one platform for tracking the books you read over the years.</p>
             </div>
@@ -13,12 +18,7 @@ export default function Home() {
             <br />
             <div className="pageContainer">
                 <h2>Find Your Next Book</h2>
-                <p>Our algorithm leverages the reading habits of our extensive userbase to assist you in finding your next book.</p>
-            </div>
-            <br />
-            <div className="pageContainer">
-                <h2>Discuss Your Favorite Books</h2>
-                <p>Hardcover is the perfect place for spirited discussions revolving around your favorite books.</p>
+                <p>Our algorithm leverages the reading habits of our extensive userbase to assist you in finding your next book. (Coming Soon)</p>
             </div>
             {/* <br />
             <div className="pageContainer">

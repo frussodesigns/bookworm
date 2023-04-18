@@ -16,7 +16,7 @@ export default function RootLayout() {
     
     const location = useLocation();
     const { logout } = useLogout()
-    const { user, exp } = useAuthContext()
+    const { user } = useAuthContext()
     const { page, dispatch } = useActivePageContext()
     const [buttonCss, setButtonCss] = useState({
         home: "navButton",
@@ -27,17 +27,46 @@ export default function RootLayout() {
     })
     const [indicatorCss, setIndicatorCss] = useState("indicator")
     const [expired, setExpired] = useState(false)
+    const [exp, setExp] = useState()
+    const [error, setError] = useState()
 
     const handleSignout = () => {
         logout()
     }
 
-    const checkExpiry = () => {
-        const now = new Date()
-        // console.log(exp)
+    const CheckExpiryJWT = async () => {
+        // console.log(user.token)
+        
+        console.log('checking expiry')
+        const uri = "/api/notes/expiryJWT"
+        const response = await fetch(process.env.REACT_APP_API + uri, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+              }
+        })
 
-        if (!exp) return
-        if (!user) return
+        const json = await response.json()
+
+        if (!response.ok) {
+            setError(json.error)
+        }
+        if (response.ok) {
+            setExp(json)
+            const expDate = new Date(json*1000)
+            setExp(expDate)
+            console.log('exp:')
+            console.log(exp)
+        }
+    }
+
+    const checkExpiry = async () => {
+        const now = new Date()
+        await CheckExpiryJWT()
+
+        if (!exp) setExpired(true)
+        if (!user) setExpired(true)
 
         if (now > exp){
             console.log('token expired')
@@ -54,72 +83,72 @@ export default function RootLayout() {
         checkExpiry()
         
 
-        switch (page) {
-            case 'Books':
-                console.log("switching books")
-                setButtonCss({
-                    home: "navButton",
-                    books: "navButton-active",
-                    notes: "navButton",
-                    discuss: "navButton",
-                    account: "navButton"
-                })
-                setIndicatorCss("indicatorBooks")
-                break
-            case 'notes':
-                console.log("switching notes")
-                setButtonCss({
-                    home: "navButton",
-                    books: "navButton",
-                    notes: "navButton-active",
-                    discuss: "navButton",
-                    account: "navButton"
-                })
-                setIndicatorCss("indicatorNotes")
-                break
-            case 'about':
-                console.log("switching discuss")
-                setButtonCss({
-                    home: "navButton",
-                    books: "navButton",
-                    notes: "navButton",
-                    discuss: "navButton-active",
-                    account: "navButton"
-                })
-                setIndicatorCss("indicatorDiscuss")
-                break
-            case 'mobileAccount':
-                setButtonCss({
-                    home: "navButton",
-                    books: "navButton",
-                    notes: "navButton",
-                    discuss: "navButton",
-                    account: "navButton-active"
-                })
-                setIndicatorCss("indicatorAccount")
-                break
-            case '':
-                setButtonCss({
-                    home: "navButton-active",
-                    books: "navButton",
-                    notes: "navButton",
-                    discuss: "navButton",
-                    account: "navButton"
-                })
-                setIndicatorCss("indicatorHome")
-                break
+        // switch (page) {
+        //     case 'Books':
+        //         console.log("switching books")
+        //         setButtonCss({
+        //             home: "navButton",
+        //             books: "navButton-active",
+        //             notes: "navButton",
+        //             discuss: "navButton",
+        //             account: "navButton"
+        //         })
+        //         setIndicatorCss("indicatorBooks")
+        //         break
+        //     case 'notes':
+        //         console.log("switching notes")
+        //         setButtonCss({
+        //             home: "navButton",
+        //             books: "navButton",
+        //             notes: "navButton-active",
+        //             discuss: "navButton",
+        //             account: "navButton"
+        //         })
+        //         setIndicatorCss("indicatorNotes")
+        //         break
+        //     case 'about':
+        //         console.log("switching discuss")
+        //         setButtonCss({
+        //             home: "navButton",
+        //             books: "navButton",
+        //             notes: "navButton",
+        //             discuss: "navButton-active",
+        //             account: "navButton"
+        //         })
+        //         setIndicatorCss("indicatorDiscuss")
+        //         break
+        //     case 'mobileAccount':
+        //         setButtonCss({
+        //             home: "navButton",
+        //             books: "navButton",
+        //             notes: "navButton",
+        //             discuss: "navButton",
+        //             account: "navButton-active"
+        //         })
+        //         setIndicatorCss("indicatorAccount")
+        //         break
+        //     case '':
+        //         setButtonCss({
+        //             home: "navButton-active",
+        //             books: "navButton",
+        //             notes: "navButton",
+        //             discuss: "navButton",
+        //             account: "navButton"
+        //         })
+        //         setIndicatorCss("indicatorHome")
+        //         break
                 
-            default:
-                setButtonCss({
-                    home: "navButton",
-                    books: "navButton",
-                    notes: "navButton",
-                    discuss: "navButton",
-                    account: "navButton"
-                })
-        }
+        //     default:
+        //         setButtonCss({
+        //             home: "navButton",
+        //             books: "navButton",
+        //             notes: "navButton",
+        //             discuss: "navButton",
+        //             account: "navButton"
+        //         })
+        // }
 
-        console.log(buttonCss)
+        // console.log(buttonCss)
     }, [page])
 
     //useLocation
@@ -135,8 +164,8 @@ export default function RootLayout() {
         console.log(result); // output: "notes"
 
         dispatch({type: "SET_PAGE", payload: result})
-      console.log(location)
-      console.log(page)
+    //   console.log(location)
+    //   console.log(page)
     }, [location])
     
 
@@ -149,9 +178,10 @@ export default function RootLayout() {
     const [keyVis, setKeyVis] = useState(false)
 
     useEffect(() => {
-        console.log(isKeyboardVisible)
+        // console.log('isKeyboardVisible:')
+        // console.log(isKeyboardVisible)
         setKeyVis(isKeyboardVisible)
-        console.log(keyVis)
+        // console.log(keyVis)
       }, [isKeyboardVisible])
       
    
@@ -184,9 +214,9 @@ export default function RootLayout() {
                     <NavLink 
                         // onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
                         className="navlinks" 
-                        to="about"
+                        to="bookclubs"
                     >
-                        Discuss
+                        Book Club
                     </NavLink>
                     {!user && (
                     <div>

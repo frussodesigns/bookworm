@@ -13,6 +13,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
+// - add whether private or not
+
 export default function DiscussionTopic() {
   const { genre, book, topic } = useParams()
   const { user } = useAuthContext()
