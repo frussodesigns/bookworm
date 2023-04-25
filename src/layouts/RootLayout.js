@@ -149,7 +149,7 @@ export default function RootLayout() {
         // }
 
         // console.log(buttonCss)
-    }, [page])
+    }, [])
 
     //useLocation
     useEffect(() => {
