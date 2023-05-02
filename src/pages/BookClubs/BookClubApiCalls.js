@@ -27,7 +27,35 @@ export async function newClub (user, body, setError) {
 	}
 }
 
-export async function modClub () {}
+export async function modClub (user, currTitle, newTitle) {
+    const info = {currTitle, newTitle}
+
+    console.log('get club settings called')
+
+    const uri = '/api/bookclubs/updateSettings'
+
+    // const body = {prop1, prop2, prop3}
+
+    const response = await fetch(process.env.REACT_APP_API + uri, {
+        method: 'POST', // PUT or PATCH (or DELETE)
+        body: JSON.stringify(info),
+        headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+        }
+    })
+
+    const json = await response.json()
+
+    // if (!response.ok) setError(json.error)	
+
+    if (response.ok) {
+        console.log(json)
+        return(json)
+        // dispatch({type: "SET_BOOKS", payload: json})
+        // maybe reset form
+    }
+}
 
 export async function newClubMember (user, club, newMember, setResponse) {
     const info = {club, newMember}
@@ -325,9 +353,9 @@ export async function getClubBooks (user, club, setClubBooks, setError) {
 	const json = await response.json()
 	
 	if (response.ok) {
-	  // dispatch({type: "SET_BOOKS", payload: json})
-      console.log(json.books)
-      setClubBooks(json.books)
+        // dispatch({type: "SET_BOOKS", payload: json})
+        console.log(json.books)
+        setClubBooks(json.books)
 	}
 
     if (!response.ok) {
@@ -399,4 +427,39 @@ export async function getClubPosts (user, club, book, discussion, setPosts) {
 	  // dispatch({type: "SET_BOOKS", payload: json})
 		// maybe reset form
 	}
+}
+
+export async function getClubSettings (user, clubName, setInfo) {
+    const info = {clubName}
+
+    console.log('get club settings called')
+
+    const uri = '/api/bookclubs/getSettings'
+
+    // const body = {prop1, prop2, prop3}
+
+    const response = await fetch(process.env.REACT_APP_API + uri, {
+        method: 'POST', // PUT or PATCH (or DELETE)
+        body: JSON.stringify(info),
+        headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+        }
+    })
+
+    const json = await response.json()
+
+    // if (!response.ok) setError(json.error)	
+
+    if (response.ok) {
+        console.log(json)
+        setInfo({
+            title: json.title,
+            members: json.members,
+            currentBooks: json.books
+        })
+        return(json)
+        // dispatch({type: "SET_BOOKS", payload: json})
+        // maybe reset form
+    }
 }

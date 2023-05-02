@@ -40,6 +40,7 @@ export default function MyClubs() {
     const [error, setError] = useState()
 
     useEffect(() => {
+      console.log('useEffect')
       getClubs(user, setError, setClubs)
     }, [])
 

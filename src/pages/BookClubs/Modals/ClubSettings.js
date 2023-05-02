@@ -1,21 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Chip from '../../../chip';
+import { getClubSettings, modClub } from '../BookClubApiCalls';
 
-export default function ClubSettings() {
+export default function ClubSettings(props) {
 
     const [mode, setMode] = useState('new')
     const [info, setInfo] = useState({
-        title: '',
+        title: props.clubName,
         members: [],
         currentBooks: [],
         completedBooks: [],
     })
 
+    useEffect(() => {
+        console.log('uE')
+      getClubSettings(props.user, props.clubName, setInfo)
+    }, [])
+
+    useEffect(() => {
+      console.log(info)
+    
+    }, [info])
+    
+    
+
     const handleFocus = (event) => event.target.select()
 
     const handleSubmit = async (e) => {
-        //modify club api
+        e.preventDefault()
+        console.log('submitted')
+        modClub(props.user, props.clubName, info.title)
+        props.trigger(false)
+
     }
 
   return (
@@ -41,6 +58,18 @@ export default function ClubSettings() {
             </div>
             <label>Members:</label>
             <div className="list">
+                {info.members && info.members.map((member) => (
+                    <Chip del={true} title={member.email} click={()=>{}} />
+                ))}
+            </div>
+            <label>Books:</label>
+            <div className="list">
+                {info.currentBooks.map((book) => (
+                        <Chip del={true} title={book.title} click={()=>{}} />
+                    ))}
+            </div>
+            {/* <label>Completed Books:</label>
+            <div className="list">
                 <Chip del={true} title={'test'} click={()=>{}} />
                 <Chip del={true} title={'test'} />
                 <Chip del={true} title={'Morgan-Stanley-Madison'} />
@@ -49,25 +78,7 @@ export default function ClubSettings() {
                 <Chip del={true} title={'test'} />
                 <Chip del={true} title={'test'} />
                 <Chip del={true} title={'test'} />
-            </div>
-            <label>Current Books:</label>
-            <div className="pgNumDiv">
-                <input 
-                className='ndField'
-                type="text"
-                onChange={(e) => setInfo(old => ({...old, currentBooks: [...old.currentBooks, e.target.value]}))}
-                onFocus={handleFocus}
-                value={info.currentBooks} />
-            </div>
-            <label>Completed Books:</label>
-            <div className="pgNumDiv">
-                <input 
-                className='ndField'
-                type="text"
-                onChange={(e) => setInfo(old => ({...old, completedBooks: [...old.completedBooks, e.target.value]}))}
-                onFocus={handleFocus}
-                value={info.completedBooks} />
-            </div>
+            </div> */}
             {/* <label>Chapter Name:</label>
                 <input 
                 className='ndField'

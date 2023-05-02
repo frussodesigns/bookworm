@@ -65,7 +65,7 @@ export default function ClubBooks() {
     const array = location.pathname.split('/').filter(Boolean);
     console.log(array)
     setClubName(array[1])
-  }, [location])
+  }, [])
 
   return (
     <main className="pageContainer">
@@ -83,7 +83,13 @@ export default function ClubBooks() {
         {clubName &&  user && <NewMember club={clubName.replace(/_/g, " ")} user={user} trigger={setNewMemberModalTrigger} />}
       </Modal>
       <Modal trigger={clubSettingsModalTrigger} setTrigger={setClubSettingsModalTrigger}>
-        <ClubSettings />
+      {clubName && 
+        <ClubSettings 
+          trigger={setClubSettingsModalTrigger}
+          user={user}
+          clubName={clubName.replace(/_/g, " ")}
+        />
+      }
       </Modal>
 
         <div className='header'>
@@ -93,7 +99,7 @@ export default function ClubBooks() {
             <div className='newBookButton'>
             <Button className='newBookButton' onClick={() => setNewBookModalTrigger(true)} variant="contained">New Book</Button>
             <Button className='newBookButton' onClick={() => setNewMemberModalTrigger(true)} variant="contained">New Member</Button>
-            {/* <Button className='newBookButton' onClick={() => setClubSettingsModalTrigger(true)} variant="contained">Club Settings</Button> */}
+            <Button className='newBookButton' onClick={() => setClubSettingsModalTrigger(true)} variant="contained">Club Settings</Button>
             </div>
         </div>
             {newBookToggle && <NewBookSelector version={2}></NewBookSelector>}
