@@ -1,32 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
-import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-import { newClub, modClub } from './BookClubApiCalls';
+import NewBookSelector from '../../Notes/NewBookSelector';
 
-export default function ModifyClub() {
-
-    const [isNew, setIsNew] = useState(true)
-    const [book, setBook] = useState(null)
-
-    let params = useParams()
-    const location = useLocation();
-
-    useEffect(() => {
-        const array = location.pathname.split('/').filter(Boolean);
-        console.log(array)
-        if (array[1] == 'new') setIsNew(true)
-        else {
-        setIsNew (false)
-        setBook(array[1])
-        }
-    }, [location])
-
-    useEffect(() => {
-    //   console.log(isNew)
-    //   console.log(book)
-    }, [book])
-    
-    
+export default function NewBook(props) {
 
     const [mode, setMode] = useState('new')
     const [info, setInfo] = useState({
@@ -39,35 +15,25 @@ export default function ModifyClub() {
     const handleFocus = (event) => event.target.select()
 
     const handleSubmit = async (e) => {
-        if (isNew) {
-            //new club api
-            newClub()
-        }
-        else if (!isNew) {
-            //modify club api
-            modClub()
-        }
+        //modify club api
     }
 
-
   return (
-    <main className="pageContainer">
+    <div>
 
         <div className='header'>
-        {isNew &&
-        <h3 className='headerTitle'>New Book Club</h3>
-        }
-        {!isNew &&
-        <h3 className='headerTitle'>{book}</h3>
-        }
+        <h3 className='headerTitle'>New Book</h3>
         </div>
         
         <br/>
 
+        <NewBookSelector version={2} clubName={props.clubName}></NewBookSelector>
+
         <form className="add" onSubmit={handleSubmit}>
             {/* <h3>New Note:</h3> */}
 
-            <label>Title:</label>
+
+            {/* <label>Title:</label>
             <div className="pgNumDiv">
                 <input 
                 className='ndField'
@@ -75,8 +41,8 @@ export default function ModifyClub() {
                 onChange={(e) => setInfo(old => ({...old, title: e.target.value}))}
                 onFocus={handleFocus}
                 value={info.title} />
-            </div>
-            <label>Members:</label>
+            </div> */}
+            {/* <label>Members:</label>
             <div className="pgNumDiv">
                 <input 
                 className='ndField'
@@ -102,7 +68,7 @@ export default function ModifyClub() {
                 onChange={(e) => setInfo(old => ({...old, completedBooks: [...old.completedBooks, e.target.value]}))}
                 onFocus={handleFocus}
                 value={info.completedBooks} />
-            </div>
+            </div> */}
             {/* <label>Chapter Name:</label>
                 <input 
                 className='ndField'
@@ -131,15 +97,15 @@ export default function ModifyClub() {
                 onChange={(e) => setPub(e.target.checked)}
                 value={pub} />
             </div> */}
-            <div className="saveButton">
+            {/* <div className="saveButton">
             <Button className='saveButton2' type="submit" variant="contained">Save</Button>
-            </div>
+            </div> */}
             {/* <button>Add Note</button> */}
             {/* {error && <div className="error">{error}</div>} */}
         </form>
 
         <br />
 
-    </main>
+    </div>
   )
 }

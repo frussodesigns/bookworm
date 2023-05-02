@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../Hooks/useAuthContext'
 import { useBookNotesContext } from '../Hooks/useBookNotesContext'
+import { newClubBook } from '../BookClubs/BookClubApiCalls'
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
-export default function NewBookSelector(data) {
+export default function NewBookSelector(props) {
     const [results, setResults] = useState()
     const [query, setQuery] = useState("")
     const [showAutocomplete, setShowAutocomplete] = useState(false)
@@ -42,6 +43,9 @@ export default function NewBookSelector(data) {
         if (query.length > 2) setShowAutocomplete(true)
         else  setShowAutocomplete(false)
 
+
+        console.log(query)
+
         // console.log(query)
 
         const fetchBooks = async () => {
@@ -50,15 +54,14 @@ export default function NewBookSelector(data) {
             if (query.length < 3) return
 
             const response = await fetch(process.env.REACT_APP_API + api, {
-              headers: {
-                'Authorization': `Bearer ${user.token}`
-              }
+              
             })
             const json = await response.json()
       
             
             if (response.ok) {
                 setResults(json)
+                // console.log(results[0])
             }
           }
 
@@ -68,7 +71,21 @@ export default function NewBookSelector(data) {
           
     }, [query])
 
-    const handleSelect = async (id, title, author) => {
+    const handleSelect = async (id, title, author, published, publisher) => {
+
+      if (!props.version) {
+        legacyHandleSelect(id, title, author)
+        return
+      }
+
+      if (props.version === 2) {
+        newClubBook(user, id, title, author, published, publisher, props.clubName)
+        return
+      }
+
+    }
+
+    const legacyHandleSelect = async (id, title, author) => {
 
         //prep payload
         const newBook = {userId: user.id, gId: id, title: title, author: author}
@@ -147,9 +164,9 @@ export default function NewBookSelector(data) {
             {resultsExcerpt && resultsExcerpt.map((item) => (
                 
                     <tr key={item.result}>
-                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author)}>{item.title}</Link></td>
-                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author)}>{item.author}</Link></td>
-                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author)}>{item.published}</Link></td>
+                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author, item.published, item.publisher)}>{item.title}</Link></td>
+                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author, item.published, item.publisher)}>{item.author}</Link></td>
+                        <td><Link onClick={() => handleSelect(item.id, item.title, item.author, item.published, item.publisher)}>{item.published}</Link></td>
                     </tr>
                 
             ))}

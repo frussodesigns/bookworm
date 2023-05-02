@@ -1,16 +1,24 @@
 import React, {useState} from 'react'
+import { Button } from '@mui/material'
 import { useParams, Link } from 'react-router-dom'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { newClubPost } from '../BookClubApiCalls';
+import { useAuthContext } from '../../Hooks/useAuthContext'
 
 
 
-export default function NewReply() {
-
+export default function NewReply(props) {
+  const { user } = useAuthContext()
   const [reply, setReply] = useState('')
+  const isReply=true
 
-  const handleSubmit = () => {}
   const handleUnlike = () => {}
+  
+  const handleSubmit = () => {
+    newClubPost(user, isReply, props.id, reply)
+  }
+
 
   return (
     <>
@@ -21,7 +29,7 @@ export default function NewReply() {
           <textarea 
               className='inlinePost'
               type="textarea" 
-              onChange={() => {}}
+              onChange={(e) => {setReply(e.target.value)}}
               value={reply}
               // placeholder='Post'
               name="" id="" 
@@ -35,6 +43,15 @@ export default function NewReply() {
           <p className='likesCounter' >{'0 likes'}</p>
           <p className='likesCounter' >{'0 views'}</p>
     </div>
+
+    <div className="newBookButton">
+          <Button size="small" variant="contained" onClick={() => {handleSubmit()}}>
+              Submit
+          </Button>
+          <Button size="small" variant="contained" onClick={() => props.setReplyExpanded(false)}>
+              Cancel
+          </Button>
+          </div>
     </>
   )
 }

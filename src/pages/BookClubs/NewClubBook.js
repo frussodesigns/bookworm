@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-
+import { newClubBook } from './BookClubApiCalls';
 
 export default function NewClubBook() {
 
@@ -36,7 +36,8 @@ export default function NewClubBook() {
     const handleFocus = (event) => event.target.select()
 
     const handleSubmit = async (e) => {
-    
+        //new book api
+        NewClubBook()
     }
 
 
@@ -44,8 +45,9 @@ export default function NewClubBook() {
     <main className="pageContainer">
 
         <div className='header'>
-        
-        <h3 className='headerTitle'>{book.replace(/_/g, " ")}'s New Book</h3>
+        { book &&
+            <h3 className='headerTitle'>{book.replace(/_/g, " ")}'s New Book</h3>
+        }
         
         </div>
         
@@ -54,7 +56,7 @@ export default function NewClubBook() {
         <form className="add" onSubmit={handleSubmit}>
             {/* <h3>New Note:</h3> */}
 
-            <label>Title:</label>
+            <label>Book:</label>
             <div className="pgNumDiv">
                 <input 
                 className='ndField'
@@ -63,33 +65,7 @@ export default function NewClubBook() {
                 onFocus={handleFocus}
                 value={info.title} />
             </div>
-            <label>Members:</label>
-            <div className="pgNumDiv">
-                <input 
-                className='ndField'
-                type="text"
-                onChange={(e) => setInfo(old => ({...old, members: [...old.members, e.target.value]}))}
-                onFocus={handleFocus}
-                value={info.members} />
-            </div>
-            <label>Current Books:</label>
-            <div className="pgNumDiv">
-                <input 
-                className='ndField'
-                type="text"
-                onChange={(e) => setInfo(old => ({...old, currentBooks: [...old.currentBooks, e.target.value]}))}
-                onFocus={handleFocus}
-                value={info.currentBooks} />
-            </div>
-            <label>Completed Books:</label>
-            <div className="pgNumDiv">
-                <input 
-                className='ndField'
-                type="text"
-                onChange={(e) => setInfo(old => ({...old, completedBooks: [...old.completedBooks, e.target.value]}))}
-                onFocus={handleFocus}
-                value={info.completedBooks} />
-            </div>
+           
             {/* <label>Chapter Name:</label>
                 <input 
                 className='ndField'
@@ -118,6 +94,7 @@ export default function NewClubBook() {
                 onChange={(e) => setPub(e.target.checked)}
                 value={pub} />
             </div> */}
+            <br />
             <div className="saveButton">
             <Button className='saveButton2' type="submit" variant="contained">Save</Button>
             </div>

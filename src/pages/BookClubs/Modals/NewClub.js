@@ -1,65 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
-import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-import { newClub, modClub } from './BookClubApiCalls';
+import { newClub } from '../BookClubApiCalls'
+import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function ModifyClub() {
+export default function NewClub(props) {
+    const { user } = useAuthContext()
 
-    const [isNew, setIsNew] = useState(true)
-    const [book, setBook] = useState(null)
-
-    let params = useParams()
-    const location = useLocation();
-
-    useEffect(() => {
-        const array = location.pathname.split('/').filter(Boolean);
-        console.log(array)
-        if (array[1] == 'new') setIsNew(true)
-        else {
-        setIsNew (false)
-        setBook(array[1])
-        }
-    }, [location])
-
-    useEffect(() => {
-    //   console.log(isNew)
-    //   console.log(book)
-    }, [book])
-    
-    
-
+    const [error, setError] = useState(false)
     const [mode, setMode] = useState('new')
     const [info, setInfo] = useState({
         title: '',
-        members: [],
-        currentBooks: [],
-        completedBooks: [],
     })
 
     const handleFocus = (event) => event.target.select()
 
     const handleSubmit = async (e) => {
-        if (isNew) {
-            //new club api
-            newClub()
-        }
-        else if (!isNew) {
-            //modify club api
-            modClub()
-        }
+        e.preventDefault()
+
+        if (newClub(user, info, setError)) props.setTrigger(false)
     }
 
-
   return (
-    <main className="pageContainer">
+    <div>
 
         <div className='header'>
-        {isNew &&
         <h3 className='headerTitle'>New Book Club</h3>
-        }
-        {!isNew &&
-        <h3 className='headerTitle'>{book}</h3>
-        }
         </div>
         
         <br/>
@@ -76,7 +41,7 @@ export default function ModifyClub() {
                 onFocus={handleFocus}
                 value={info.title} />
             </div>
-            <label>Members:</label>
+            {/* <label>Members:</label>
             <div className="pgNumDiv">
                 <input 
                 className='ndField'
@@ -102,7 +67,7 @@ export default function ModifyClub() {
                 onChange={(e) => setInfo(old => ({...old, completedBooks: [...old.completedBooks, e.target.value]}))}
                 onFocus={handleFocus}
                 value={info.completedBooks} />
-            </div>
+            </div> */}
             {/* <label>Chapter Name:</label>
                 <input 
                 className='ndField'
@@ -140,6 +105,6 @@ export default function ModifyClub() {
 
         <br />
 
-    </main>
+    </div>
   )
 }

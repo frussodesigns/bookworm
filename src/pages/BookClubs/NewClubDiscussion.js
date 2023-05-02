@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import { Routes, Route, useParams, useLocation } from 'react-router-dom';
-
+import { newClubDiscussion } from './BookClubApiCalls';
 
 export default function NewClubDiscussion() {
 
@@ -36,7 +36,7 @@ export default function NewClubDiscussion() {
     const handleFocus = (event) => event.target.select()
 
     const handleSubmit = async (e) => {
-    
+        newClubDiscussion()
     }
 
 
@@ -45,7 +45,7 @@ export default function NewClubDiscussion() {
 
         <div className='header'>
         
-        <h3 className='headerTitle'>New Discussion For {book.replace(/_/g, " ")}</h3>
+        {book && <h3 className='headerTitle'>New Discussion For {book.replace(/_/g, " ")}</h3>}
         
         </div>
         

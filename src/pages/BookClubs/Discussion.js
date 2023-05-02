@@ -7,8 +7,12 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NewPost from './DiscussionComponents/NewPost';
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
+import { getClubPosts } from './BookClubApiCalls';
+import { useAuthContext } from '../Hooks/useAuthContext'
+
 
 export default function Discussion() {
+    const { user } = useAuthContext()
     const location = useLocation();
 
     const [authorized, setAuthorized] = useState(false)
@@ -71,6 +75,7 @@ export default function Discussion() {
             ]
         },
     ])
+    const [organizedPosts, setOrganizedPosts] = useState([])
     const [reply, setReply] = useState({
         remark: '',
         isReply: false,
@@ -78,14 +83,44 @@ export default function Discussion() {
     }) //current reply content
     const [replyExpanded, setReplyExpanded] = useState(false)
     const [postOpen, setPostOpen] = useState(false) //main post
-
+    
+    //set club, book, and discussion based on url
     useEffect(() => {
         const array = location.pathname.split('/').filter(Boolean);
         setClub(array[1])
         setBook(array[2])
         setDiscussion(array[3].replace(/_/g, " "))
         console.log(array)
-      }, [location])
+
+        getClubPosts(user, array[1].replace(/_/g, " "), array[2].replace(/_/g, " "), array[3].replace(/_/g, " "), setPosts)
+    }, [location])
+
+    //setup organized posts
+    useEffect(() => {
+        console.log('posts logic')
+
+        let tempPosts = []
+
+        for (let i = 0; i < posts.length; i++){
+            if (posts[i].isReply == false) tempPosts.push(posts[i])
+            if (posts[i].isReply == true){
+                for (let j = 0; j < tempPosts.length; j++){
+                    if (tempPosts[j]._id.toString() == posts[i].replyTo){
+                        console.log('match')
+                        if (!tempPosts[j].repliesArr) tempPosts[j].repliesArr=[]
+                        tempPosts[j].repliesArr.push(posts[i])
+                        tempPosts[j].replies = tempPosts[j].replies +1 //delete later
+                    }
+                }
+            }
+        }
+        console.log(tempPosts)
+        setOrganizedPosts(tempPosts)
+
+        console.log(organizedPosts)
+
+    }, [posts])
+    
 
     const newReply = () => {
 
@@ -106,7 +141,7 @@ export default function Discussion() {
           <Link underline="hover" color="inherit" to={"/bookclubs/"+club+"/"+book}>
             {book && book.replace(/_/g, " ") + "'s Discussions"}
           </Link>
-          <Typography color="text.primary">{discussion && discussion.replace(/_/g, " ") + "'s Discussions"}</Typography>
+          <Typography color="text.primary">{discussion && discussion.replace(/_/g, " ")}</Typography>
         </Breadcrumbs>
 
 
@@ -121,22 +156,24 @@ export default function Discussion() {
 
         <br />
 
-        {posts && posts.map((post, index)=>(
+        {organizedPosts && organizedPosts.map((post, index)=>(
             <APost 
                 title={index == 0 && discussion}
                 user={post.user}
-                timestamp={post.timestamp}
-                remark={post.remark}
+                timestamp={post.createdAt}
+                remark={post.content}
                 likes={post.likes}
                 liked={post.liked}
                 views={post.views}
                 replies={post.replies}
+                repliesArray={post.repliesArr}
+                id={post._id}
             />
         ))}
 
         {replyExpanded&&
             <div className="aPost">
-            <NewPost />
+            <NewPost id={posts[0]._id} setReplyExpanded={setReplyExpanded} />
             </div>
         }
 
@@ -145,12 +182,12 @@ export default function Discussion() {
             <Button className='newBookButton' onClick={() => setReplyExpanded(old => !old)} variant="contained">New Reply</Button>
         </div>
         }
-        {replyExpanded &&
+        {/* {replyExpanded &&
         <div className='newBookButton'>
             <Button className='newBookButton' onClick={() => setReplyExpanded(old => !old)} variant="contained">Submit</Button>
             <Button className='newBookButton' onClick={() => setReplyExpanded(old => !old)} variant="contained">Cancel</Button>
         </div>
-        }
+        } */}
 
         {/*page selection*/}
         <div className="pgSelection">

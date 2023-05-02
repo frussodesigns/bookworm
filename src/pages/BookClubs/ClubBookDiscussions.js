@@ -3,6 +3,11 @@ import { Button } from '@mui/material'
 import { Link, useLoaderData, useParams, useNavigate, useLocation } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
+import { getClubDiscussions } from './BookClubApiCalls'
+import Modal from '../../modal'
+import NewDiscussion from './Modals/NewDiscussion'
+import { useAuthContext } from '../Hooks/useAuthContext'
+
 
 // Book:
 // - Title
@@ -30,6 +35,8 @@ const discussions = [
 ]
 
 export default function ClubBookDiscussions() {
+  const { user } = useAuthContext()
+
   const navigate = useNavigate()
 
   const location = useLocation();
@@ -37,16 +44,27 @@ export default function ClubBookDiscussions() {
 
   const [club, setClub] = useState(null)
   const [book, setBook] = useState(null)
+  const [newDiscussionModalTrigger, setNewDiscussionModalTrigger] = useState(false)
+  const [discussions, setDiscussions] = useState()
 
+
+  //set club and book based on url:
   useEffect(() => {
     const array = location.pathname.split('/').filter(Boolean);
     setClub(array[1])
     setBook(array[2])
     console.log(array)
+
+    getClubDiscussions(user, array[1].replace(/_/g, " "), array[2].replace(/_/g, " "), setDiscussions)
+
   }, [location])
 
   return (
       <main className="pageContainer">
+
+        <Modal trigger={newDiscussionModalTrigger} setTrigger={setNewDiscussionModalTrigger}>
+          {club && book && <NewDiscussion club={club.replace(/_/g, " ")} book={book.replace(/_/g, " ")} setTrigger={setNewDiscussionModalTrigger}></NewDiscussion>}
+        </Modal>
 
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" color="inherit" to="/bookclubs">
@@ -63,7 +81,7 @@ export default function ClubBookDiscussions() {
 
             {/* <Link onClick={() => setNewBook(!newBook)}>[New Book]</Link> */}
             <div className='newBookButton'>
-            <Button className='newBookButton' onClick={() => navigate('/bookclubs/' + club + '/' + book + '/' + 'newDiscussion')} variant="contained">New Discussion</Button>
+            <Button className='newBookButton' onClick={() => setNewDiscussionModalTrigger(true)} variant="contained">New Discussion</Button>
             </div>
         </div>
 
@@ -75,7 +93,7 @@ export default function ClubBookDiscussions() {
               <div className="bookInfo">
                 <h3 className='bookTitle'>{ discussion.title }</h3>
               
-                <p className='by' >{"Last Post: " + discussion.lastPost }</p>
+                <p className='by' >{"Last Post: " + discussion.latestActivity }</p>
                 <p className='by' >{"Last Post By: " + discussion.lastPoster }</p>
                 <p className='by' >{"Posts Today: " + discussion.postsToday }</p>
               </div>

@@ -218,6 +218,13 @@ export default function RootLayout() {
                     >
                         Book Club
                     </NavLink>
+                    <NavLink 
+                        // onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
+                        className="navlinks" 
+                        to="discuss"
+                    >
+                        Discuss
+                    </NavLink>
                     {!user && (
                     <div>
                     <NavLink className="navlinks" to="signin">Sign In</NavLink>
