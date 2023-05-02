@@ -271,7 +271,7 @@ export default function RootLayout() {
                 </NavLink>
                 <NavLink 
                     // onClick={() => dispatch({type: "SET_PAGE", payload: "Discuss"})}
-                    to="about">
+                    to="bookclubs">
                     <div className={buttonCss.discuss}>
                         <ChatBubbleIcon className="navIcon" />
                         <p className="navLink">Discuss</p>
