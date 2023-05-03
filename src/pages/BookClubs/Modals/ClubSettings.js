@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Chip from '../../../chip';
-import { getClubSettings, modClub } from '../BookClubApiCalls';
+import { getClubSettings, modClub, removeMember } from '../BookClubApiCalls';
+import Modal from '../../../modal';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export default function ClubSettings(props) {
 
@@ -12,6 +15,7 @@ export default function ClubSettings(props) {
         currentBooks: [],
         completedBooks: [],
     })
+    const [delMemEmail, setDelMemEmail] = useState(false)
 
     useEffect(() => {
         console.log('uE')
@@ -35,8 +39,64 @@ export default function ClubSettings(props) {
 
     }
 
+    const confirmDelete = async () => {
+        // console.log('confirm')
+        // console.log(delMemEmail)
+        // console.log(props.clubName)
+        // console.log(props.user)
+
+        const res = await removeMember(props.user, delMemEmail, props.clubName)
+        if (await res) {
+            setDelMemEmail(false)
+            ConfirmationToast()
+            props.trigger(false)
+        }
+    } 
+
+    const ConfirmationToast = () => {
+        toast.success(delMemEmail + ' removed Successfully', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+      };
+
   return (
     <div>
+
+        <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
+
+        <Modal trigger={delMemEmail} setTrigger={setDelMemEmail}>
+            {/* <CloseIcon className='closeButton' onClick={() => props.setDeleteToggle(false)} /> */}
+
+            <h3>Please Confirm</h3>
+            <div>Are you sure you would like to remove {delMemEmail} ?</div>
+            {/* <div>Are you sure you would like to delete {props.deleteToggle.title} and all of its {props.deleteToggle.notes} notes?</div> */}
+            <div className="twoButton">
+                <Button onClick={() => confirmDelete()} size="small" variant="contained">
+                    Confirm
+                </Button>
+                <Button onClick={() => setDelMemEmail(false)} size="small" variant="contained">
+                    Cancel
+                </Button>
+            </div>
+        </Modal>
 
         <div className='header'>
         <h3 className='headerTitle'>Book Club Settings</h3>
@@ -59,7 +119,7 @@ export default function ClubSettings(props) {
             <label>Members:</label>
             <div className="list">
                 {info.members && info.members.map((member) => (
-                    <Chip del={true} title={member.email} click={()=>{}} />
+                    <Chip del={true} title={member.email} click={()=>{setDelMemEmail(member.email)}} />
                 ))}
             </div>
             <label>Books:</label>

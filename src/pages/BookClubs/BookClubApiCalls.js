@@ -57,6 +57,38 @@ export async function modClub (user, currTitle, newTitle) {
     }
 }
 
+export async function removeMember (user, member, club) {
+    const info = {member, club}
+
+    console.log(info.member)
+
+    console.log('remove club member called')
+
+    const uri = '/api/bookclubs/removeMember'
+
+    // const body = {prop1, prop2, prop3}
+
+    const response = await fetch(process.env.REACT_APP_API + uri, {
+        method: 'POST', // PUT or PATCH (or DELETE)
+        body: JSON.stringify(info),
+        headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+        }
+    })
+
+    const json = await response.json()
+
+    // if (!response.ok) setError(json.error)	
+
+    if (response.ok) {
+        console.log(json)
+        return(json)
+        // dispatch({type: "SET_BOOKS", payload: json})
+        // maybe reset form
+    }
+}
+
 export async function newClubMember (user, club, newMember, setResponse) {
     const info = {club, newMember}
     
