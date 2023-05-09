@@ -356,7 +356,7 @@ a:visited {
   color: #333; 
 }
 main {
-  padding: 10px 20px; 
+  padding: 12px 12px; 
   /* display: flex;
   justify-content: space-around; */
   /* align-items: center; */
@@ -556,16 +556,30 @@ td {
   border-radius: 1rem;
 }
 
+.pageContainerDiscussion{
+  /* background-color: #1aac83; */
+  margin: .2rem;
+  background: #f1f1f1;
+  padding: 2rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  padding-top: 1rem;
+  margin-top: 0rem;
+  border-radius: 1rem;
+}
+
 .topNewPost{
   margin: 2rem 0;
 }
 
 .aPost{
   background-color: white;
-  padding: .1rem 1.5rem;
+  padding: .1rem 1rem;
   padding-bottom: 1.5rem;
   /* margin: .2rem; */
   margin-bottom: .7rem;
+  margin-left: 0;
+  margin-right: 0;
   border-radius: 1rem;
 }
 
@@ -583,6 +597,27 @@ td {
   /* background-color: #1aac83; */
 }
 
+.repliesContainer{
+  margin: 0;
+  padding: .22rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: red; */
+}
+
+.replyBr{
+  display: none;
+}
+
+.replyButton{
+  justify-self: center;
+}
+
+.replyButtonBr{
+  height: .5rem;
+}
+
 .post{
   padding-bottom: 0;
   margin-bottom: 0;
@@ -597,6 +632,9 @@ td {
 
 .likeComponent{
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .likeIcon{
@@ -609,9 +647,15 @@ td {
   margin-top: 0;
   padding-top: 0;
   width: 5rem;
+  /* font-size: small; */
   /* background-color: #1aac83; */
   /* transform: translate(120px, 50%); */
 } 
+
+.likeGroup{
+  display: flex;
+  flex-direction: row;
+}
 
 select {
   min-width: 20em;

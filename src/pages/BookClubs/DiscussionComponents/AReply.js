@@ -33,8 +33,11 @@ export default function AReply({replies, index, id}) {
     <h4 ref={ref} className='bookTitle'>{ replies[index].content }</h4>
     <p className='postInfo'>{"by " + replies[index].user + " posted " + new Date(replies[index].createdAt).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
     <div className='likeComponent' >
+      <div className="likeGroup">
           <div className='likeIcon' ><FaceIcon /></div>
           <p className='likesCounter' >{replies[index].views + ' views'}</p>
+      </div>
+      <div className="likeGroup">
           {replies[index].liked==false && 
 
             <Link className='likeIcon' onClick={() => newClubLike(id, user)}><FavoriteBorderIcon /></Link>
@@ -44,6 +47,7 @@ export default function AReply({replies, index, id}) {
           }
 
           <p className='likesCounter' >{replies[index].likes + ' likes'}</p>
+      </div>
           
     </div>
     </>

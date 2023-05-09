@@ -130,7 +130,7 @@ export default function Discussion() {
     const prevPage = () => { }
 
   return (
-    <main className="pageContainer">
+    <main className="pageContainerDiscussion">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" color="inherit" to="/bookclubs">
             Book Clubs

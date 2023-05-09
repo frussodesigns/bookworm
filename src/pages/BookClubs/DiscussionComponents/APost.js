@@ -61,11 +61,11 @@ export default function APost(props) {
         <p className='postInfo'>{"by " + props.user + " posted " + new Date(props.timestamp).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
         {/*reply button*/}
         <div className='likeComponent' >
-              {expanded && <ExpandMoreIcon onClick={() => setExpanded(false)} />}
-              {!expanded && <ExpandLessIcon onClick={() => expand()} />}
-              <p className='likesCounter' >{props.replies + ' replies'}</p>
+            <div className='likeGroup'>
               <div className='likeIcon' ><FaceIcon /></div>
               <p className='likesCounter' >{props.views + ' views'}</p>
+            </div>
+            <div className='likeGroup'>
               {props.liked==false && 
 
                 <Link className='likeIcon' onClick={() => handleLike()}><FavoriteBorderIcon /></Link>
@@ -74,11 +74,17 @@ export default function APost(props) {
                 <Link className='likeIcon' onClick={() => handleUnlike()}><FavoriteIcon /></Link>
               }
               <p className='likesCounter' >{props.likes + ' likes'}</p>
+            </div>
+            <div className='likeGroup'>
+              {expanded && <ExpandMoreIcon onClick={() => setExpanded(false)} />}
+              {!expanded && <ExpandLessIcon onClick={() => expand()} />}
+              <p className='likesCounter' >{props.replies + ' replies'}</p>
+            </div>
         </div>
         {expanded&&
         <div className="repliesContainer">
           {/* <h4 className='bookTitle'>{ 'Replies:' }</h4> */}
-          <br />
+          <br className='replyBr' />
             {props.repliesArray ? props.repliesArray.map((reply, index) => (
               <div className="aPost">
                 <AReply replies={props.repliesArray} id={reply._id} index={index} />
@@ -98,9 +104,12 @@ export default function APost(props) {
 
           {/* <br /> */}
           {!replyExpanded&& props.replies>0 &&
-          <Button size="small" variant="contained" onClick={() => setReplyExpanded(old => !old)}>
+          <>
+          <Button className='replyButton' size="small" variant="contained" onClick={() => setReplyExpanded(old => !old)}>
               Reply
           </Button>
+          <div className="replyButtonBr"></div>
+          </>
           }
           {/* {replyExpanded&&
           <div className="newBookButton">
