@@ -15,12 +15,14 @@ export default function Discussion() {
     const { user } = useAuthContext()
     const location = useLocation();
 
+    const [page, setPage] = useState(0)
+    const [results, setResults] = useState(40)
+    const [returnedResults, setReturnedResults] = useState(-1)
+    const [totalPages, setTotalPages] = useState(-1)
     const [authorized, setAuthorized] = useState(false)
     const [club, setClub] = useState()
     const [book, setBook] = useState()
     const [discussion, setDiscussion] = useState()
-    const [resultsPage, setResultsPage] = useState(1)
-    const [resultsPages, setResultsPages] = useState(5)
     const [posts, setPosts] = useState([
         {
             user: 'billy88',
@@ -83,7 +85,12 @@ export default function Discussion() {
     }) //current reply content
     const [replyExpanded, setReplyExpanded] = useState(false)
     const [postOpen, setPostOpen] = useState(false) //main post
-    
+    const [selectedLanguage, setSelectedLanguage] = useState('en')
+    const languages = [
+        { value: 'en', label: 'English' },
+        { value: 'it', label: 'Italiano' },
+        // { value: 'es', label: 'Spanish' }
+      ]
     //set club, book, and discussion based on url
     useEffect(() => {
         const array = location.pathname.split('/').filter(Boolean);
@@ -92,8 +99,14 @@ export default function Discussion() {
         setDiscussion(array[3].replace(/_/g, " "))
         console.log(array)
 
-        getClubPosts(user, array[1].replace(/_/g, " "), array[2].replace(/_/g, " "), array[3].replace(/_/g, " "), setPosts)
-    }, [location])
+        getClubPosts(user, array[1].replace(/_/g, " "), array[2].replace(/_/g, " "), array[3].replace(/_/g, " "), setPosts, results, page, setReturnedResults, selectedLanguage)
+    }, [location, selectedLanguage])
+
+    //page change api call
+    useEffect(() => {
+        if (discussion) getClubPosts(user, club.replace(/_/g, " "), book.replace(/_/g, " "), discussion, setPosts, results, page, setReturnedResults)
+    }, [page])
+    
 
     //setup organized posts
     useEffect(() => {
@@ -119,15 +132,24 @@ export default function Discussion() {
 
         console.log(organizedPosts)
 
+        calcTotalPages()
+
     }, [posts])
-    
 
-    const newReply = () => {
-
+    function calcTotalPages () {
+        setTotalPages(Math.ceil(returnedResults/results))
     }
 
-    const nextPage = () => { }
-    const prevPage = () => { }
+    const nextPage = () => { 
+        if (page + 1 < totalPages){
+            setPage(page + 1)
+        }
+    }
+    const prevPage = () => { 
+        if (page > 0){
+            setPage(page - 1)
+        }
+    }
 
   return (
     <main className="pageContainerDiscussion">
@@ -152,6 +174,22 @@ export default function Discussion() {
             {/* <div className='newBookButton'>
             <Button className='newBookButton' onClick={() => newReply()} variant="contained">New Reply</Button>
             </div> */}
+        
+        <div className='langSelector'>
+            <select
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+                {/* <option value="">Select language</option> */}
+                {languages.map((language) => (
+                <option key={language.value} value={language.value}>
+                    {language.label}
+                </option>
+                ))}
+            </select>
+            {/* <p>Selected option: {selectedLanguage}</p> */}
+        </div>
+        
         </div>
 
         <br />
@@ -168,6 +206,7 @@ export default function Discussion() {
                 replies={post.replies}
                 repliesArray={post.repliesArr}
                 id={post._id}
+                translation={post.translation}
             />
         ))}
 
@@ -192,7 +231,7 @@ export default function Discussion() {
         {/*page selection*/}
         <div className="pgSelection">
           <Link className='nav-arrow' onClick={() => prevPage()}><NavigateBeforeIcon /></Link>
-          <p className='nav-item'>{resultsPage + " / " + resultsPages}</p>
+          {returnedResults && <p className='nav-item'>{page + 1 + " / " + totalPages}</p>}
           <Link className='nav-arrow' onClick={() => nextPage()}><NavigateNextIcon /></Link>
         </div>
         

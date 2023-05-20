@@ -30,7 +30,15 @@ export default function AReply({replies, index, id}) {
 
   return (
     <>
-    <h4 ref={ref} className='bookTitle'>{ replies[index].content }</h4>
+    {!replies[index].translation.translated &&
+      <h4 ref={ref} className='bookTitle'>{ replies[index].content }</h4>
+    }
+    {replies[index].translation.translated &&
+      <>
+        <h4 ref={ref} className='bookTitleTranslation'>{ replies[index].translation.text }</h4>
+        <h5 ref={ref} className='bookTitleTranslation2'>{ replies[index].translation.translated }{':   '}{replies[index].content}</h5>
+      </>
+    }
     <p className='postInfo'>{"by " + replies[index].user + " posted " + new Date(replies[index].createdAt).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
     <div className='likeComponent' >
       <div className="likeGroup">

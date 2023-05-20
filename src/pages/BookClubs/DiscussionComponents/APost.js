@@ -57,7 +57,15 @@ export default function APost(props) {
     return (
     <div className="aPost">
         {/* <h3 className='bookTitle'>{ title }</h3> */}
-        <h4 ref={ref} className='bookTitle'>{ props.remark }</h4>
+        {!props.translation.translated &&
+          <h4 ref={ref} className='bookTitle'>{ props.remark }</h4>
+        }
+        {props.translation.translated &&
+          <>
+            <h4 ref={ref} className='bookTitleTranslation'>{ props.translation.text }</h4>
+            <h5 ref={ref} className='bookTitleTranslation2'>{ props.translation.translated }{':   '}{props.remark}</h5>
+          </>
+        }
         <p className='postInfo'>{"by " + props.user + " posted " + new Date(props.timestamp).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
         {/*reply button*/}
         <div className='likeComponent' >

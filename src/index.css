@@ -431,6 +431,13 @@ select {
   padding-bottom: 0;
 }
 
+.langSelector{
+  margin-left: auto;
+  justify-self: center;
+  align-self: center;
+  /* width: 10em; */
+}
+
 .newBookButton{
   margin-top: 1rem;
   margin-left: auto;
@@ -466,6 +473,21 @@ select {
   /* border: 1px solid black; */
   margin-bottom: 0;
   /* margin-top: .8rem; */
+}
+
+.bookTitleTranslation{
+  /* border: 1px solid black; */
+  margin-bottom: 0;
+  /* margin-top: 0; */
+  padding-top: 0;
+}
+
+.bookTitleTranslation2{
+  /* border: 1px solid black; */
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
+  font-weight: 500;
 }
 
 .by{

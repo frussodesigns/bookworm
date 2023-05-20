@@ -427,8 +427,8 @@ export async function getClubDiscussions (user, club, book, setDiscussions) {
 	}
 }
 
-export async function getClubPosts (user, club, book, discussion, setPosts) {
-    const info = {user, club, book, discussion}
+export async function getClubPosts (user, club, book, discussion, setPosts, results, page, setReturnedResults, language) {
+    const info = {user, club, book, discussion, results, page, language}
 
     const uri = '/api/bookclubs/getPosts'
 
@@ -449,7 +449,8 @@ export async function getClubPosts (user, club, book, discussion, setPosts) {
 
 	if (response.ok) {
         console.log(json)
-        setPosts(json)
+        setPosts(json.posts)
+        setReturnedResults(json.results)
 	  // dispatch({type: "SET_BOOKS", payload: json})
 		// maybe reset form
 	}
