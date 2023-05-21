@@ -113,8 +113,8 @@ export default function ClubBooks() {
                 <h3 className='bookTitle'>{ book.title }</h3>
               
                 <p className='by' >{"By " + book.author }</p>
-                <p className='by' >{"Last Post : " + book.lastPost }</p>
-                <p className='by' >{"Posts Today : " + book.numPostsToday }</p>
+                <p className='by' >{"Last Post: " + book.lastPost }</p>
+                <p className='by' >{"Posts Today: " + book.numPostsToday }</p>
               </div>
               
               {/* <span onClick={() => {deleteBook(book)}}>delete</span> */}

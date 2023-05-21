@@ -386,8 +386,8 @@ export async function getClubBooks (user, club, setClubBooks, setError) {
 	
 	if (response.ok) {
         // dispatch({type: "SET_BOOKS", payload: json})
-        console.log(json.books)
-        setClubBooks(json.books)
+        console.log(json)
+        setClubBooks(json)
 	}
 
     if (!response.ok) {
