@@ -93,7 +93,7 @@ export default function ClubBookDiscussions() {
               <div className="bookInfo">
                 <h3 className='bookTitle'>{ discussion.title }</h3>
               
-                <p className='by' >{"Last Post: " + discussion.latestActivity }</p>
+                <p className='by' >{"Last Post: " +  new Date(discussion.latestActivity).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
                 <p className='by' >{"Last Post By: " + discussion.lastPoster }</p>
                 <p className='by' >{"Posts Today: " + discussion.postsToday }</p>
               </div>

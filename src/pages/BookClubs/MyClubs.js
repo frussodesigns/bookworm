@@ -74,10 +74,10 @@ export default function MyClubs() {
               <div className="bookInfo">
                 <h3 className='bookTitle'>{ club.clubName }</h3>
               
-                <p className='by' >{"Last Post : " + club.lastPost }</p>
+                <p className='by' >{"Last Post: " +  new Date(club.lastPost).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
                 <p className='by' >{"Book: " + club.currBookTitle }</p>
-                <p className='by' >{"Members : " + club.numMembers }</p>
-                <p className='by' >{"Posts Today : " + club.postsToday }</p>
+                <p className='by' >{"Members: " + club.numMembers }</p>
+                <p className='by' >{"Posts Today: " + club.postsToday }</p>
               </div>
               
               {/* <span onClick={() => {deleteBook(book)}}>delete</span> */}

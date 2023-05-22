@@ -113,7 +113,7 @@ export default function ClubBooks() {
                 <h3 className='bookTitle'>{ book.title }</h3>
               
                 <p className='by' >{"By " + book.author }</p>
-                <p className='by' >{"Last Post: " + book.lastPost }</p>
+                <p className='by' >{"Last Post: " +  new Date(book.lastPost).toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"numeric"}) }</p>
                 <p className='by' >{"Posts Today: " + book.numPostsToday }</p>
               </div>
               
