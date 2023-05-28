@@ -112,14 +112,14 @@ function App() {
         <Route path="discuss/:genre/:book" element={<DiscussionBook />} /*loader={discussLoader}*/ />
         <Route path="discuss/:genre/:book/:topic" element={<DiscussionTopic />} /*loader={discussLoader}*/ />
        
-        <Route path="bookclubs" element={<MyClubs />} /*loader={discussLoader}*/ />
-        <Route path="bookclubs/:club" element={<ClubBooks />} /*loader={discussLoader}*/ />
-        <Route path="bookclubs/:club/:book" element={<ClubBookDiscussions />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs" element={user ? <MyClubs /> : <SignIn />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club" element={user ? <ClubBooks /> : <SignIn />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book" element={user ? <ClubBookDiscussions /> : <SignIn />} /*loader={discussLoader}*/ />
         <Route path="bookclubs/:club/modify" element={<ModifyClub />} /*loader={discussLoader}*/ />
         <Route path="bookclubs/new" element={<ModifyClub />} /*loader={discussLoader}*/ />
-        <Route path="bookclubs/:club/newBook" element={<NewClubBook />} /*loader={discussLoader}*/ />
-        <Route path="bookclubs/:club/:book/newDiscussion" element={<NewClubDiscussion />} /*loader={discussLoader}*/ />
-        <Route path="bookclubs/:club/:book/:discussion" element={<Discussion />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/newBook" element={user ? <NewClubBook /> : <SignIn />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book/newDiscussion" element={user ? <NewClubDiscussion /> : <SignIn />} /*loader={discussLoader}*/ />
+        <Route path="bookclubs/:club/:book/:discussion" element={user ? <Discussion /> : <SignIn />} /*loader={discussLoader}*/ />
         
 
         <Route path="*" element={<NotFound />} />
