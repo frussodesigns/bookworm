@@ -1,6 +1,7 @@
 export default function Home() {
     return(
-        <>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', backgroundColor: ''}}>
+        <div style={{maxWidth: 800}}>
             <div className="pageContainer">
                 <h2>Discuss Your Favorite Books</h2>
                 <p>Hardcover is the perfect place for spirited discussions revolving around your favorite books.</p>
@@ -25,6 +26,7 @@ export default function Home() {
                 <h2>Start a Private Book Club</h2>
                 <p>Host your private book club to discuss a new book as a group.</p>
             </div> */}
-        </>
+        </div>
+    </div>
     )
 }

@@ -197,13 +197,13 @@ export default function RootLayout() {
                         <h1>HARDCOVER</h1>
                     </NavLink>
                     {/* <p>{page}</p> */}
-                    <NavLink 
+                    {/* <NavLink 
                         // onClick={() => dispatch({type: "SET_PAGE", payload: "Books"})}
                         className="navlinks" 
                         to="about"
                     >
                         Books
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink 
                         // onClick={() => dispatch({type: "SET_PAGE", payload: "Notes"})}
                         className="navlinks" 
